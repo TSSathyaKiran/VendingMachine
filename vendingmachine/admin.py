@@ -5,9 +5,15 @@ from .models import Vending_machine, machine_item
 
 class items_admin(admin.TabularInline):
     model = machine_item
-    extra = 2
+    extra = 4
 
 class Vending_machine_Admin(admin.ModelAdmin):
-    pass
+    fieldsets = [
+        (None, {"fields" : ['machine_id', 'vending_machine_type', 'no_of_items']})
+    ]
 
-admin.site.register(Vending_machine)
+    inlines = [items_admin]
+
+    list_display = ['machine_name', 'machine_id', 'vending_machine_type', 'no_of_items']
+
+admin.site.register(Vending_machine, Vending_machine_Admin)

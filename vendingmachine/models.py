@@ -3,12 +3,16 @@ from django.db import models
 
 class Vending_machine(models.Model):
 
-    machine_name = models.CharField(max_length=30, null=False)
-    machine_id = models.CharField(max_length=3, unique=True)
+    machine_id = models.IntegerField(unique=True)
 
     def save(self, *args, **kwargs):
-        self.machine_id = f'VM{(int(self.machine_id)):03}'
+        if self.pk is None:
+            self.items_to_be_added = self.no_of_items
         super().save(*args, **kwargs)
+
+    @property
+    def machine_name(self):
+        return f'VM{self.machine_id:03}'
 
     vending_machine_type_choices = [
         ('Snacks', 'SNACKS'),
@@ -20,8 +24,8 @@ class Vending_machine(models.Model):
 
     ]
     vending_machine_type = models.CharField(choices=vending_machine_type_choices)
-    no_of_items = models.PositiveIntegerField(db_default=0)
-    items_to_be_added = no_of_items
+    no_of_items = models.PositiveIntegerField(default=0)
+    items_to_be_added = models.PositiveBigIntegerField(default=0)
 
     def items_availablity(self):
         if self.no_of_items == self.items_to_be_added:
@@ -42,6 +46,7 @@ class machine_item(models.Model):
         else:
             self.vending_machine.items_to_be_added -= self.item_quantity
             self.vending_machine.save()
+        super().save(*args, **kwargs)
 
     def purchase(self):
         if self.item_quantity > 0:
