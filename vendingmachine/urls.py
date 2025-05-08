@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.Home),
-    path('VM<id>', views.Machine)
+    path('<id>', views.Machine)
 ]
