@@ -1,8 +1,18 @@
 from django.db import models
 
 class Vending_machine(models.Model):
-    machine_id = models.CharField(max_length=4, unique=True)
-    vending_machine_type = models.CharField(max_length=100)
+    machine_id = models.IntegerField(max_length=3, unique=True)
+
+    vending_machine_type_choices = [
+        ('Snacks', 'SNACKS'),
+        ('Drinks','DRINKS'),
+        ('Toys','TOYS'),
+        ('Books','BOOKS'),
+        ('Fashion','FASHION'),
+        ('Misc','MISCELLANEOUS'),
+
+    ]
+    vending_machine_type = models.CharField(choices=vending_machine_type_choices)
     no_of_items = models.IntegerField(db_default=0)
 
     def items_availablity(self):
