@@ -30,6 +30,7 @@ class Vending_machine(models.Model):
     def items_availablity(self):
         if self.no_of_items == self.items_to_be_added:
             return False
+        else: return True
         
     def __str__(self):
         return self.machine_name
