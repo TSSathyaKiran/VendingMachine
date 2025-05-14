@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vending Machines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+        .machine-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .machine {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 280px;
+        }
+        .machine h2 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        .machine p {
+            margin: 6px 0;
+        }
+        .status {
+            font-weight: bold;
+            color: green;
+        }
+        .status.empty {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Vending Machines</h1>
+
+    <div class="machine-list">
+        {% for machine in list_of_machines %}
+            <div class="machine">
+                <h2>{{ machine.machine_name }}</h2>
+                <p><strong>Type:</strong> {{ machine.vending_machine_type }}</p>
+                <p><strong>Total Items:</strong> {{ machine.no_of_items }}</p>
+                <p><strong>Space Left:</strong> {{ machine.items_to_be_added }}</p>
+                {% if machine.items_availablity %}
+                    <p class="status"></p>
+                {% else %}
+                    <p class="status empty">No Items Available</p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No vending machines available.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
