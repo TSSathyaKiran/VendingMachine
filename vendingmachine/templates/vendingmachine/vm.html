@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ machine.machine_name }} - Vending Machine</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #121212;
+            color: #f5f5f5;
+            padding: 60px 40px;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #7db9ff;
+        }
+
+        .machine-info {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .machine-info p {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .status {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .status.available {
+            color: #00e676;
+        }
+
+        .status.empty {
+            color: #ff5252;
+        }
+
+        h2 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+        .items-table {
+            width: 100%;
+            max-width: 800px;
+            border-collapse: collapse;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .items-table th, .items-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+            font-size: 18px;
+        }
+
+        .items-table th {
+            background-color: #2c2c2c;
+            color: #7db9ff;
+        }
+
+        .items-table tr:hover {
+            background-color: #2a2a2a;
+        }
+
+        .no-items {
+            font-size: 18px;
+            color: #ccc;
+            margin-top: 20px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            color: #7db9ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ machine.machine_name }}</h1>
+
+    <div class="machine-info">
+        <p><strong>Type:</strong> {{ machine.vending_machine_type }}</p>
+        <p><strong>Total Items:</strong> {{ machine.no_of_items }}</p>
+        <p><strong>Space Left:</strong> {{ machine.items_to_be_added }}</p>
+        <p class="status {% if machine.items_availablity %}available{% else %}empty{% endif %}">
+            {% if machine.items_availablity %}
+                
+            {% else %}
+                No Items Available
+            {% endif %}
+        </p>
+    </div>
+
+    <h2>Items in this Machine</h2>
+
+    {% with machine.machine_item_set.all as items %}
+        {% if items %}
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Cost</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ item.item_name }}</td>
+                            <td>₹{{ item.item_cost }}</td>
+                            <td>{{ item.item_quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="no-items">No items in this vending machine.</p>
+        {% endif %}
+    {% endwith %}
+
+    <a href="/">← Back to all machines</a>
+</body>
+</html>

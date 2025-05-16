@@ -22,8 +22,13 @@
         .machine-list {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 50px 40px; /* More vertical and horizontal spacing */
+            gap: 50px 40px;
             justify-items: center;
+        }
+
+        .machine-link {
+            text-decoration: none;
+            color: inherit;
         }
 
         .machine {
@@ -91,17 +96,19 @@
 
     <div class="machine-list">
         {% for machine in list_of_machines %}
-            <div class="machine">
-                <h2>{{ machine.machine_name }}</h2>
-                <p><strong>Type:</strong> {{ machine.vending_machine_type }}</p>
-                <p><strong>Total Items:</strong> {{ machine.no_of_items }}</p>
-                <p><strong>Space Left:</strong> {{ machine.items_to_be_added }}</p>
-                {% if machine.items_availablity %}
-                    <p class="status"></p>
-                {% else %}
-                    <p class="status empty">No Items Available</p>
-                {% endif %}
-            </div>
+            <a href="{% url 'Machine' machine.machine_id %}" class="machine-link">
+                <div class="machine">
+                    <h2>{{ machine.machine_name }}</h2>
+                    <p><strong>Type:</strong> {{ machine.vending_machine_type }}</p>
+                    <p><strong>Total Items:</strong> {{ machine.no_of_items }}</p>
+                    <p><strong>Space Left:</strong> {{ machine.items_to_be_added }}</p>
+                    {% if machine.items_availablity %}
+                        <p class="status">Items Available</p>
+                    {% else %}
+                        <p class="status empty">No Items Available</p>
+                    {% endif %}
+                </div>
+            </a>
         {% empty %}
             <p>No vending machines available.</p>
         {% endfor %}
