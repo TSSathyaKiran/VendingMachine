@@ -17,14 +17,19 @@ def user_login(request):
             return render(request, 'vendingmachine/login.html', context)
     return render(request, "vendingmachine/login.html")
 
+def user_logout(request):
+    logout(request)
+    return redirect('Home')
+
 
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
+        email = request.POST["email"]
         password = request.POST["password"]
-        user = User.objects.create_user(username=username, password=password)
+        user = User.objects.create_user(username=username, password=password, email=email)
         return redirect('login')
-    return render(request, "vendingmachine/login.html")
+    return render(request, "vendingmachine/register.html")
 
 def Home(request):
     list_of_machines = Vending_machine.objects.order_by("machine_id")
